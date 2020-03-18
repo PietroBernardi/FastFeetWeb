@@ -4,6 +4,8 @@ export const Wrapper = styled.div`
   padding: 0.02px;
   margin: 0px;
 
+  background: #f2f2f2;
   height: 100% auto;
-  background: linear-gradient(-90deg, #7159c1, #ab59c1);
+  position: relative;
+  position: absolute;
 `;
