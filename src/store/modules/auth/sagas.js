@@ -23,7 +23,8 @@ export function* signIn({ payload }) {
 
     history.push('/orders');
   } catch (err) {
-    toast.error('E-mail ou senha incorretos, por favor tente novamente.');
+    toast.error(err.response.data.error);
+
     yield put(signFailure());
   }
 }

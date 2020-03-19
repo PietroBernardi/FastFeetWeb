@@ -34,7 +34,7 @@ export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [oneOrder, setOneOrder] = useState({});
   const [reg, setReg] = useState(null);
-  const [productName, setProductName] = useState('');
+  const [q, setQ] = useState('');
   const [visible, setVisible] = useState(0);
   const [modalShow, setModalShow] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -69,14 +69,11 @@ export default function Orders() {
     setLoading(true);
     async function loadOrders() {
       const response = await api.get('orders', {
-        params: { page, productName },
+        params: { page, q },
       });
-
-      console.tron.log(response);
 
       const data = response.data.map(s => {
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
         return {
           ...s,
           formattedStatus: getFormatedStatus(s),
@@ -106,7 +103,7 @@ export default function Orders() {
       setOrders(data);
     }
     loadOrders();
-  }, [page, productName, reg]);
+  }, [page, q, reg]);
 
   async function handleDelete(id) {
     // eslint-disable-next-line no-alert
@@ -189,8 +186,8 @@ export default function Orders() {
               name="search"
               type="text"
               placeholder="Buscar por encomendas"
-              value={productName}
-              onChange={e => [setProductName(e.target.value), setPage(1)]}
+              value={q}
+              onChange={e => [setQ(e.target.value), setPage(1)]}
             />
           </div>
 
@@ -316,7 +313,7 @@ export default function Orders() {
             disabled={
               (page !== 1 && reg / 4 <= page) ||
               (page === 1 && orders.length < 4) ||
-              (productName !== '' && reg === 4) ||
+              (q !== '' && reg === 4) ||
               reg === 4
             }
           >

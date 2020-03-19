@@ -2,22 +2,28 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 import Route from './Route';
 
-import SignIn from '../pages/SignIn';
+import Sign from '../pages/Sign';
 
+import DeliveryMans from '../pages/DeliveryMans';
+import DeliveryMansForm from '../pages/DeliveryMansForm';
+import OrderProblems from '../pages/OrderProblems';
 import Orders from '../pages/Orders';
-import Deliverymen from '../pages/Deliverymen';
+import OrdersForm from '../pages/OrdersForm';
 import Recipients from '../pages/Recipients';
-import Problems from '../pages/Problems';
+import RecipientsForm from '../pages/RecipientsForm';
 
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/" exact component={SignIn} />
+      <Route path="/" exact component={Sign} />
 
-      <Route path="/orders" component={Orders} isPrivate />
-      <Route path="/deliverymen" component={Deliverymen} isPrivate />
-      <Route path="/recipients" component={Recipients} isPrivate />
-      <Route path="/problems" component={Problems} isPrivate />
+      <Route path="/orders" exact component={Orders} isPrivate />
+      <Route path="/deliverymans" exact component={DeliveryMans} isPrivate />
+      <Route path="/recipients" exact component={Recipients} isPrivate />
+      <Route path="/order-problems" exact component={OrderProblems} isPrivate />
+      <Route path="/orders/edit" component={OrdersForm} isPrivate />
+      <Route path="/recipients/edit" component={RecipientsForm} isPrivate />
+      <Route path="/deliverymans/edit" component={DeliveryMansForm} isPrivate />
     </Switch>
   );
 }

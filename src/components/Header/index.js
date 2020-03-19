@@ -1,11 +1,12 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { signOut } from '~/store/modules/auth/actions';
-
-import logo from '~/assets/fastfeet-logo@2x.png';
+import { useSelector, useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 import { Container, Content, Profile } from './styles';
+
+import { signOut } from '~/store/modules/auth/actions';
+
+import logo from '~/assets/logo.png';
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -20,18 +21,41 @@ export default function Header() {
       <Content>
         <nav>
           <img src={logo} alt="FastFeet" />
-          <Link to="/orders">ENCOMENDAS</Link>
-          <Link to="/deliverymen">ENTREGADORES</Link>
-          <Link to="/recipients">DESTINATÁRIOS</Link>
-          <Link to="/problems">PROBLEMAS</Link>
+          <ul>
+            <NavLink activeStyle={{ color: '#000' }} id="orders" to="/orders">
+              ENCOMENDAS
+            </NavLink>
+            <NavLink
+              activeStyle={{ color: '#000' }}
+              id="deliverymans"
+              to="/deliverymans"
+            >
+              ENTREGADORES
+            </NavLink>
+            <NavLink
+              activeStyle={{ color: '#000' }}
+              id="recipients"
+              to="/recipients"
+            >
+              DESTINATÁRIOS
+            </NavLink>
+            <NavLink
+              activeStyle={{ color: '#000' }}
+              id="orderProblems"
+              to="/order-problems"
+            >
+              PROBLEMAS
+            </NavLink>
+          </ul>
         </nav>
+
         <aside>
           <Profile>
             <div>
               <strong>{profile.name}</strong>
-              <button type="button" onClick={handleSignOut}>
-                sair do sistema
-              </button>
+              <NavLink to="/" onClick={handleSignOut}>
+                Sair do sistema
+              </NavLink>
             </div>
           </Profile>
         </aside>

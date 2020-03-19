@@ -22,9 +22,9 @@ import api from '~/services/api';
 
 import history from '~/services/history';
 
-export default function Recipients() {
+export default function DeliveryMans() {
   const [page, setPage] = useState(1);
-  const [recipients, setRecipients] = useState([]);
+  const [deliverymans, setDeliverymans] = useState([]);
   const [reg, setReg] = useState(null);
   const [q, setQ] = useState('');
   const [visible, setVisible] = useState(0);
@@ -32,8 +32,8 @@ export default function Recipients() {
 
   useEffect(() => {
     setLoading(true);
-    async function loadRecipients() {
-      const response = await api.get('recipients', {
+    async function loadDeliverymans() {
+      const response = await api.get('deliverymans', {
         params: { page, q },
       });
 
@@ -48,9 +48,9 @@ export default function Recipients() {
 
       setReg(response.data.count);
       setLoading(false);
-      setRecipients(data);
+      setDeliverymans(data);
     }
-    loadRecipients();
+    loadDeliverymans();
   }, [page, q, reg]);
 
   function handleNextPage() {
@@ -63,36 +63,35 @@ export default function Recipients() {
 
   async function handleDelete(id) {
     // eslint-disable-next-line no-alert
-    if (window.confirm('Deseja excluir este destinatário?') === true) {
+    if (window.confirm('Deseja excluir esta entregador?') === true) {
       try {
-        const response = await api.delete(`recipients/${id}`);
+        const response = await api.delete(`deliverymans/${id}`);
 
         if (response.data.error) {
           throw response.data;
         }
 
-        setRecipients(recipients.filter(r => r.id !== id));
+        setDeliverymans(deliverymans.filter(d => d.id !== id));
 
-        toast.success('O destinatário foi excluído com sucesso!');
+        toast.success('O entregador foi excluído com sucesso!');
       } catch (err) {
-        toast.error(err.response.data.error);
-        setVisible(0);
+        toast.error(err.error);
       }
     }
   }
 
-  function handleVisible(recip) {
-    if (recip === visible) {
+  function handleVisible(dman) {
+    if (dman === visible) {
       setVisible(0);
       return;
     }
-    setVisible(recip);
+    setVisible(dman);
   }
 
   return (
     <Container>
       <header>
-        <p>Gerenciando destinatários</p>
+        <p>Gerenciando entregadores</p>
       </header>
       <div>
         <div className="search">
@@ -101,13 +100,13 @@ export default function Recipients() {
           <Input
             name="search"
             type="text"
-            placeholder="Buscar por destinatários"
+            placeholder="Buscar por entregadores"
             value={q}
             onChange={e => [setQ(e.target.value), setPage(1)]}
           />
         </div>
 
-        <StyledLink to="/recipients/edit" type="button">
+        <StyledLink to="/deliverymans/edit" type="button">
           <MdAdd size={20} color="#fff" />
           CADASTRAR
         </StyledLink>
@@ -121,37 +120,35 @@ export default function Recipients() {
         <div className="table">
           <div className="line lineTitle">
             <div className="tableTitle">ID</div>
+            <div className="tableTitle">Foto</div>
             <div className="tableTitle">Nome</div>
-            <div className="tableTitle">Endereço</div>
+            <div className="tableTitle">Email</div>
             <div className="tableTitle">Ações</div>
           </div>
 
           {reg !== 0 ? (
             ''
           ) : (
-            <span className="noData">Nenhum destinatário foi localizado.</span>
+            <span className="noData">Nenhum entregador foi localizado.</span>
           )}
 
-          {recipients.map(recip => (
-            <div key={recip.id} className="line">
-              <div className="tableTitle">#{recip.id}</div>
-              <div className="tableTitle">{recip.name}</div>
+          {deliverymans.map(dman => (
+            <div key={dman.id} className="line">
+              <div className="tableTitle">#{dman.id}</div>
               <div className="tableTitle">
-                {recip.street}, {recip.number}, {recip.city} - {recip.state}
-                {recip.complement ? ` - ${recip.complement}` : ''}
+                <img src={dman.avatarUrl} alt="avatar" />
               </div>
+              <div className="tableTitle">{dman.name}</div>
+              <div className="tableTitle">{dman.email}</div>
 
               <div className="tableTitle">
                 <ActionButton
-                  focusOut={() => handleVisible(recip.id)}
-                  onClick={() => handleVisible(recip.id)}
+                  focusOut={() => handleVisible(dman.id)}
+                  onClick={() => handleVisible(dman.id)}
                 >
-                  {recip.id === visible ? ' X' : '...'}
+                  {dman.id === visible ? ' X' : '...'}
                 </ActionButton>
-                <ContextMenu
-                  visible={visible === recip.id}
-                  className={recip.id}
-                >
+                <ContextMenu visible={visible === dman.id} className={dman.id}>
                   <ul>
                     <li>
                       {' '}
@@ -159,8 +156,8 @@ export default function Recipients() {
                       <button
                         type="button"
                         onClick={() =>
-                          history.push(`/recipients/edit/${recip.id}`, {
-                            recip,
+                          history.push(`/deliverymans/edit/${dman.id}`, {
+                            dman,
                           })
                         }
                       >
@@ -172,7 +169,7 @@ export default function Recipients() {
                       <MdDeleteForever size={20} color="#DE3B3B" />{' '}
                       <button
                         type="button"
-                        onClick={() => handleDelete(recip.id)}
+                        onClick={() => handleDelete(dman.id)}
                       >
                         Excluir
                       </button>
@@ -193,10 +190,10 @@ export default function Recipients() {
           type="button"
           onClick={handleNextPage}
           disabled={
-            (page !== 1 && reg / 5 <= page) ||
-            (page === 1 && recipients.length < 5) ||
-            (q !== '' && reg === 5) ||
-            reg === 5
+            (page !== 1 && reg / 4 <= page) ||
+            (page === 1 && deliverymans.length < 4) ||
+            (q !== '' && reg === 4) ||
+            reg === 4
           }
         >
           Próxima página

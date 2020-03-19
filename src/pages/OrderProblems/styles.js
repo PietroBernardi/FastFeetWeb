@@ -1,12 +1,8 @@
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
-import AsyncSelect from 'react-select/async';
-
 import { darken } from 'polished';
 
 export const Container = styled.div`
   width: 1200px;
-  position: relative;
   margin: 30px auto;
   header {
     p {
@@ -81,7 +77,7 @@ export const BodyContent = styled.div`
     flex: 1;
     div.line {
       display: grid;
-      grid-template-columns: 15% 15% 30% 30% 10%;
+      grid-template-columns: 15% 80% 5%;
       width: 100%;
       background: #fff;
       margin-bottom: 21px;
@@ -118,24 +114,6 @@ export const BodyContent = styled.div`
   }
 `;
 
-export const StyledLink = styled(Link)`
-  background: #7d40e7;
-  border-radius: 4px;
-  border: 0;
-  color: #fff;
-  font-weight: bold;
-  padding: 10px 15px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  &:hover {
-    background: ${darken(0.07, '#7D40E7')};
-  }
-  svg {
-    margin-right: 8px;
-  }
-`;
-
 export const Button = styled.button`
   background: #7D40E7;
   color: #fff;
@@ -150,10 +128,6 @@ export const Button = styled.button`
       props.disabled ? '#7D40E7' : `${darken(0.07, '#7D40E7')}`};
     cursor: ${props => (props.disabled ? 'default' : 'pointer')};
   }
-`;
-
-export const CustomAsyncSelect = styled(AsyncSelect)`
-  width: 300px;
 `;
 
 export const ActionButton = styled.button``;
@@ -202,14 +176,11 @@ export const ContextMenu = styled.div`
       & + span {
         border-top: 1px solid #eee;
       }
-      & + li {
-        border-top: 1px solid #eee;
-      }
     }
   }
 `;
 
-export const ModalShow = styled.div`
+export const ModalShowOrder = styled.div`
   visibility: ${props => (props.visible ? 'block' : 'hidden')};
   background: rgba(0, 0, 0, 0.6);
   position: absolute;
